@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Facts Generator</title>
+    <style>
+        body {
+            background-color: #E4F1AC;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            font-family: 'Lobster', cursive;
+            font-size: 2.5em;
+            color: #f8426c;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 1.5em;
+            color: #009990;
+            margin-bottom: 20px;
+        }
+        #numberInput {
+            padding: 10px;
+            font-size: 1.2em;
+            border: 2px solid #FF748B;
+            border-radius: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        #getFact {
+            background-color: #f8426c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 20px;
+            cursor: pointer; /* Changes the cursor to a pointer on hover */
+            margin-top: 10px;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        #getFact:hover {
+            background-color: #009990;
+            transform: scale(1.05); /* Slightly enlarges the button*/
+        }
+        #getFact:active {
+            background-color: #026e67;
+        }
+        #factResult {
+            font-family: "Comic Sans MS", "Arial", sans-serif;
+            font-size: 1.2em;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            word-wrap: break-word; /* long strings break into the next line */
+        }
+    </style>
+</head>
+<body>
+    <h1>Number Facts Generator</h1>
+    <h3>Get to know what each number signifies 🔢</h3>
+    <!-- Input field for the user to enter a number -->
+    <input type="number" id="numberInput" placeholder="Enter a number..." />
+    <button id="getFact">Get a Fact!</button>
+    <p id="factResult"></p>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script>
+        $(document).ready(function() {
+            $("#getFact").click(function() {
+                const number = $("#numberInput").val();
+                if (number === "") { 
+                    $("#factResult").text("Please enter a number!");
+                    return;
+                }
+
+                // Fetch a fact from the Numbers API
+                $.get('http://numbersapi.com/'+number, function(data) {
+                    
+                    // Clears the content and it resets the #factResult element to be empty before the new one runs.
+                    $("#factResult").empty();
+
+                    // text using typing animation
+                    new Typed("#factResult", {
+                        strings: [data],
+                        typeSpeed: 60,
+                        showCursor: false
+                    });
+                }).fail(function() {
+                    // display error if the API call fails
+                    $("#factResult").text("Oops! Couldn't fetch a fact. Try again!");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
