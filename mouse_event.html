@@ -22,6 +22,8 @@
                         //user given coordinates by mouse click
                     const x=eve.offsetX;
                     const y=eve.offsetY;
+                    //saves the coordinate values in console
+                    console.log('Coordinates: x=' + x + ', y=' + y);
 
                     ctx.beginPath();
                     ctx.arc(x,y,10,0,Math.PI*2);
